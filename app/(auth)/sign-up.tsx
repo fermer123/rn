@@ -1,9 +1,11 @@
-import {Text, View} from 'react-native';
+import {ScrollView, Text, View} from 'react-native';
 
 const SignUp = () => {
   return (
-    <View>
-      <Text>SignUp</Text>
+    <View className='bg-primary'>
+      <ScrollView contentContainerStyle={{height: '100%'}}>
+        <Text className='color-secondary'>SignUp</Text>
+      </ScrollView>
     </View>
   );
 };
