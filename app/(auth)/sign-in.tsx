@@ -26,11 +26,13 @@ const SignIn = () => {
     <SafeAreaView className='bg-primary h-full'>
       <ScrollView>
         <View className='w-full justify-center px-4 my-6'>
-          <Image
-            resizeMode='contain'
-            source={images.logo}
-            className='w-[115px] h-[35px]'
-          />
+          <Link href='/'>
+            <Image
+              resizeMode='contain'
+              source={images.logo}
+              className='w-[115px] h-[35px]'
+            />
+          </Link>
           <Text className='text-2xl text-white mt-10 font-psemibold'>
             Log in to Aora
           </Text>
@@ -50,7 +52,7 @@ const SignIn = () => {
             name='password'
           />
           <CustomButton
-            title='Sign ip'
+            title='Sign in'
             handlePress={() => {}}
             containerStyles='mt-10 w-full'
             isLoading={isLoading}
@@ -59,9 +61,7 @@ const SignIn = () => {
             <Text className='text-lg text-gray-100'>
               Don`t have an account?
             </Text>
-            <Link
-              className='color-secondary text-lg underline'
-              href='/(auth)/sign-up'>
+            <Link className='color-secondary text-lg underline' href='/sign-up'>
               Sign up
             </Link>
           </View>
