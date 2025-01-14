@@ -1,20 +1,27 @@
+import CustomButton from '@/components/CustomButton';
 import FormField from '@/components/FormField';
 import {images} from '@/constants';
-import {useState} from 'react';
+import {Link} from 'expo-router';
+import {useCallback, useState} from 'react';
 import {Image, SafeAreaView, ScrollView, Text, View} from 'react-native';
 
 const SignIn = () => {
+  const [isLoading, setSsLoading] = useState(false);
   const [form, setForm] = useState({
     email: '',
     password: '',
   });
-  const handleChange = (value: string, name: keyof typeof form) => {
+  const handleChange = useCallback((value: string, name: keyof typeof form) => {
     setForm((prev) => ({
       ...prev,
       [name]: value,
     }));
-  };
-  console.log('form', form);
+  }, []);
+
+  const onSubmit = useCallback(() => {
+    setSsLoading(true);
+  }, []);
+
   return (
     <SafeAreaView className='bg-primary h-full'>
       <ScrollView>
@@ -42,6 +49,22 @@ const SignIn = () => {
             styles='mt-7'
             name='password'
           />
+          <CustomButton
+            title='Sign ip'
+            handlePress={() => {}}
+            containerStyles='mt-10 w-full'
+            isLoading={isLoading}
+          />
+          <View className='flex-row justify-center gap-2 pt-5'>
+            <Text className='text-lg text-gray-100'>
+              Don`t have an account?
+            </Text>
+            <Link
+              className='color-secondary text-lg underline'
+              href='/(auth)/sign-up'>
+              Sign up
+            </Link>
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
