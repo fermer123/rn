@@ -25,7 +25,7 @@ const SignIn = () => {
   return (
     <SafeAreaView className='bg-primary h-full'>
       <ScrollView>
-        <View className='w-full justify-center px-4 my-6'>
+        <View className='flex gap-10 w-full justify-center px-4 my-6'>
           <Link href='/'>
             <Image
               resizeMode='contain'
@@ -41,14 +41,12 @@ const SignIn = () => {
             value={form.email}
             onChange={handleChange}
             keyboardType='email-address'
-            styles='mt-7'
             name='email'
           />
           <FormField
             title='Password'
             value={form.password}
             onChange={handleChange}
-            styles='mt-7'
             name='password'
           />
           <CustomButton

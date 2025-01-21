@@ -32,7 +32,7 @@ const FormField = <T,>({
   return (
     <View className={`flex-1 gap-3 ${styles}`}>
       <Text className='text-base text-gray-100 font-pmedium'>{title}</Text>
-      <View className='flex-row gap-2 w-full h-16 pl-4 pr-10 bg-black-100 rounded-2xl focus:border-secondary items-center'>
+      <View className='flex-row gap-5 w-full h-16 pl-4 pr-5 bg-black-100 rounded-2xl focus:border-secondary items-center'>
         <TextInput
           className=' text-white w-full font-psemibold text-base'
           value={value}
