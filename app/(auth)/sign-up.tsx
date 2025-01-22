@@ -2,17 +2,18 @@ import CustomButton from '@/components/CustomButton';
 import FormField from '@/components/FormField';
 import {images} from '@/constants';
 import {createUser} from '@/lib/appwrite';
-import {Link} from 'expo-router';
+import {Link, router} from 'expo-router';
 import {useCallback, useState} from 'react';
 import {Image, SafeAreaView, ScrollView, Text, View} from 'react-native';
 
 const SignUp = () => {
   const [isLoading, setSsLoading] = useState(false);
   const [form, setForm] = useState({
-    username: '',
+    userName: '',
     email: '',
     password: '',
   });
+
   const handleChange = useCallback((value: string, name: keyof typeof form) => {
     setForm((prev) => ({
       ...prev,
@@ -22,10 +23,17 @@ const SignUp = () => {
 
   const onSubmit = useCallback(async () => {
     setSsLoading(true);
-    await createUser(form);
-    console.log('end');
+    try {
+      const res = await createUser(form);
+      if (res) {
+        router.push('/home');
+      }
+    } catch (error) {
+      setSsLoading(false);
+      throw new Error(error as string);
+    }
     setSsLoading(false);
-  }, []);
+  }, [form]);
 
   return (
     <SafeAreaView className='bg-primary h-full'>
@@ -43,10 +51,10 @@ const SignUp = () => {
           </Text>
           <FormField
             title='Username'
-            value={form.username}
+            value={form.userName}
             onChange={handleChange}
             keyboardType='username'
-            name='username'
+            name='userName'
           />
           <FormField
             title='Email'

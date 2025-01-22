@@ -1,7 +1,8 @@
 import CustomButton from '@/components/CustomButton';
 import FormField from '@/components/FormField';
 import {images} from '@/constants';
-import {Link} from 'expo-router';
+import {signIn} from '@/lib/appwrite';
+import {Link, router} from 'expo-router';
 import {useCallback, useState} from 'react';
 import {Image, SafeAreaView, ScrollView, Text, View} from 'react-native';
 
@@ -18,9 +19,17 @@ const SignIn = () => {
     }));
   }, []);
 
-  const onSubmit = useCallback(() => {
+  const onSubmit = useCallback(async () => {
     setSsLoading(true);
-  }, []);
+    try {
+      await signIn(form?.email, form?.password);
+      setSsLoading(false);
+      router.push('/home');
+    } catch (error) {
+      setSsLoading(false);
+      throw new Error(error as string);
+    }
+  }, [form]);
 
   return (
     <SafeAreaView className='bg-primary h-full'>
@@ -51,7 +60,7 @@ const SignIn = () => {
           />
           <CustomButton
             title='Sign in'
-            handlePress={() => {}}
+            handlePress={onSubmit}
             containerStyles='mt-10 w-full'
             isLoading={isLoading}
           />

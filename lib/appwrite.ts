@@ -33,46 +33,49 @@ const databases = new Databases(client);
 export async function createUser({
   email,
   password,
-  username,
+  userName,
 }: {
   email: string;
   password: string;
-  username?: string;
+  userName?: string;
 }) {
-  // const resp = await account.create(
-  //   ID.unique(),
-  //   'qwe@qwe.com',
-  //   'pasqweqwes',
-  //   'qwe',
-  // );
-  // console.log('resp', resp);
   try {
     const newAccount = await account.create(
       ID.unique(),
       email,
       password,
-      username,
+      userName,
     );
-    console.log('newAccount', newAccount);
-    //   if (!newAccount) throw Error;
 
-    //   const avatarUrl = avatars.getInitials(username);
+    if (!newAccount) throw Error;
 
-    //   await signIn(email, password);
+    const avatarUrl = avatars.getInitials(userName);
 
-    //   const newUser = await databases.createDocument(
-    //     appwriteConfig.databaseId,
-    //     appwriteConfig.userCollectionId,
-    //     ID.unique(),
-    //     {
-    //       accountId: newAccount.$id,
-    //       email: email,
-    //       username: username,
-    //       avatar: avatarUrl,
-    //     },
-    //   );
+    await signIn(email, password);
 
-    //   return newUser;
+    const newUser = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      ID.unique(),
+      {
+        accountId: newAccount.$id,
+        email,
+        userName,
+        avatar: avatarUrl,
+      },
+    );
+
+    return newUser;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+}
+
+export async function signIn(email: string, password: string) {
+  try {
+    const session = await account.createEmailPasswordSession(email, password);
+    console.log(session);
+    return session;
   } catch (error) {
     throw new Error(error as string);
   }
