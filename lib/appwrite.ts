@@ -74,7 +74,6 @@ export async function createUser({
 export async function signIn(email: string, password: string) {
   try {
     const session = await account.createEmailPasswordSession(email, password);
-    console.log(session);
     return session;
   } catch (error) {
     throw new Error(error as string);

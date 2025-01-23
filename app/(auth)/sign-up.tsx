@@ -14,12 +14,15 @@ const SignUp = () => {
     password: '',
   });
 
-  const handleChange = useCallback((value: string, name: keyof typeof form) => {
-    setForm((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  }, []);
+  const handleChange = useCallback(
+    (value: string, name: keyof typeof form) => {
+      setForm((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    },
+    [setForm],
+  );
 
   const onSubmit = useCallback(async () => {
     setSsLoading(true);

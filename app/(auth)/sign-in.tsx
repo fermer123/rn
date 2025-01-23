@@ -1,6 +1,7 @@
 import CustomButton from '@/components/CustomButton';
 import FormField from '@/components/FormField';
 import {images} from '@/constants';
+import {useGlobalContext} from '@/context/GlobalContextProvider';
 import {signIn} from '@/lib/appwrite';
 import {Link, router} from 'expo-router';
 import {useCallback, useState} from 'react';
@@ -8,16 +9,21 @@ import {Image, SafeAreaView, ScrollView, Text, View} from 'react-native';
 
 const SignIn = () => {
   const [isLoading, setSsLoading] = useState(false);
+
   const [form, setForm] = useState({
     email: '',
     password: '',
   });
-  const handleChange = useCallback((value: string, name: keyof typeof form) => {
-    setForm((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  }, []);
+
+  const handleChange = useCallback(
+    (value: string, name: keyof typeof form) => {
+      setForm((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    },
+    [setForm],
+  );
 
   const onSubmit = useCallback(async () => {
     setSsLoading(true);
