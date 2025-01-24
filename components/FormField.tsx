@@ -1,13 +1,6 @@
 import {icons} from '@/constants';
 import {useState} from 'react';
-import {
-  Image,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  TouchableOpacityBase,
-  View,
-} from 'react-native';
+import {Image, Text, TextInput, TouchableOpacity, View} from 'react-native';
 
 interface IProps<T> {
   title: string;

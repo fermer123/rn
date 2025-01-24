@@ -1,23 +1,55 @@
+import SearchInput from '@/components/SearchInput';
+import {images} from '@/constants';
 import {useGlobalContext} from '@/context/GlobalContextProvider';
-import {SafeAreaView, ScrollView, Text, View} from 'react-native';
+import {useState} from 'react';
+import {FlatList, Image, ScrollView, Text, View} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const Home = () => {
   const {user} = useGlobalContext();
-  console.log('user', user);
+  const [search, setSearch] = useState('');
   return (
     <SafeAreaView className='bg-primary h-full'>
-      <ScrollView>
-        <View className='flex gap-20 w-full justify-center px-6 my-6'>
-          <View className='flex flex-col '>
-            <Text className='font-psemibold text-[14px] color-gray-100'>
-              Welcome Back
-            </Text>
-            <Text className='font-psemibold text-xl color-gray-100'>
-              {user?.userName}
-            </Text>
+      <FlatList
+        data={[{id: '1'}, {id: '2'}]}
+        keyExtractor={(item) => item.id}
+        renderItem={({item}) => (
+          <Text className='text-3xl color-secondary'>{item.id}</Text>
+        )}
+        ListHeaderComponent={() => (
+          <View className='flex my-6 px-4 space-y-6'>
+            <View className='flex justify-between items-start flex-row mb-6'>
+              <View>
+                <Text className='font-pmedium text-sm text-gray-100'>
+                  Welcome Back
+                </Text>
+                <Text className='text-2xl font-psemibold text-white'>
+                  JSMastery
+                </Text>
+              </View>
+              <Image
+                source={images.logoSmall}
+                className='mt-1.5'
+                resizeMode='contain'
+                style={{width: 58, height: 43}}
+              />
+            </View>
+
+            <SearchInput
+              onChange={setSearch}
+              value={search}
+              onPress={() => console.log('search,', search)}
+              placeholder='Search for a video topic'
+            />
+
+            <View className='w-full flex-1 pt-5 pb-8'>
+              <Text className='text-lg font-pregular text-gray-100 mb-3'>
+                Latest Videos
+              </Text>
+            </View>
           </View>
-        </View>
-      </ScrollView>
+        )}
+      />
     </SafeAreaView>
   );
 };
