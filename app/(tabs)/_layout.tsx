@@ -82,7 +82,7 @@ const TabsLayout = () => {
               icon={icons.plus}
               color={color}
               focused={focused}
-              name='Home'
+              name='Create'
             />
           ),
         }}

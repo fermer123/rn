@@ -1,18 +1,33 @@
+import EmptyState from '@/components/EmptyState';
 import SearchInput from '@/components/SearchInput';
+import Trending from '@/components/Trending';
 import {images} from '@/constants';
 import {useGlobalContext} from '@/context/GlobalContextProvider';
-import {useState} from 'react';
-import {FlatList, Image, ScrollView, Text, View} from 'react-native';
+import {useCallback, useState} from 'react';
+import {
+  FlatList,
+  Image,
+  RefreshControl,
+  ScrollView,
+  Text,
+  View,
+} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 const Home = () => {
   const {user} = useGlobalContext();
   const [search, setSearch] = useState('');
+  const [refresh, setRefresh] = useState(false);
+  const onRefresh = useCallback(async () => {
+    setRefresh(true);
+    //reftch video
+    setRefresh(false);
+  }, [refresh]);
   return (
     <SafeAreaView className='bg-primary h-full'>
       <FlatList
-        data={[{id: '1'}, {id: '2'}]}
-        keyExtractor={(item) => item.id}
+        data={[]}
+        keyExtractor={(item) => item?.id}
         renderItem={({item}) => (
           <Text className='text-3xl color-secondary'>{item.id}</Text>
         )}
@@ -46,9 +61,19 @@ const Home = () => {
               <Text className='text-lg font-pregular text-gray-100 mb-3'>
                 Latest Videos
               </Text>
+              <Trending posts={[{id: 1}, {id: 3}, {id: 3}]} />
             </View>
           </View>
         )}
+        ListEmptyComponent={() => (
+          <EmptyState
+            title='No Videos Found'
+            subtitle='No videos found for this profile'
+          />
+        )}
+        refreshControl={
+          <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+        }
       />
     </SafeAreaView>
   );
