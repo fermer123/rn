@@ -1,9 +1,12 @@
 import EmptyState from '@/components/EmptyState';
 import SearchInput from '@/components/SearchInput';
 import Trending from '@/components/Trending';
+import VideoCard from '@/components/VideoCard';
 import {images} from '@/constants';
 import {useGlobalContext} from '@/context/GlobalContextProvider';
-import {useCallback, useState} from 'react';
+import {getAllPosts} from '@/lib/appwrite';
+import useAppwrite from '@/lib/useAppwrite';
+import {useCallback, useEffect, useState} from 'react';
 import {
   FlatList,
   Image,
@@ -12,12 +15,14 @@ import {
   Text,
   View,
 } from 'react-native';
+import {Models} from 'react-native-appwrite';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 const Home = () => {
-  const {user} = useGlobalContext();
+  const {data} = useAppwrite(getAllPosts);
   const [search, setSearch] = useState('');
   const [refresh, setRefresh] = useState(false);
+
   const onRefresh = useCallback(async () => {
     setRefresh(true);
     //reftch video
@@ -26,11 +31,9 @@ const Home = () => {
   return (
     <SafeAreaView className='bg-primary h-full'>
       <FlatList
-        data={[]}
-        keyExtractor={(item) => item?.id}
-        renderItem={({item}) => (
-          <Text className='text-3xl color-secondary'>{item.id}</Text>
-        )}
+        data={data}
+        keyExtractor={(item) => item?.$id}
+        renderItem={({item}) => <VideoCard videoItem={item} />}
         ListHeaderComponent={() => (
           <View className='flex my-6 px-4 space-y-6'>
             <View className='flex justify-between items-start flex-row mb-6'>
