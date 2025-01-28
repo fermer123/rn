@@ -1,10 +1,10 @@
 import EmptyState from '@/components/EmptyState';
 import SearchInput from '@/components/SearchInput';
-import Trending from '@/components/Trending';
+import Trending from '@/components/Trending/Trending';
 import VideoCard from '@/components/VideoCard';
 import {images} from '@/constants';
 import {useGlobalContext} from '@/context/GlobalContextProvider';
-import {getAllPosts} from '@/lib/appwrite';
+import {getAllPosts, getLatestPosts} from '@/lib/appwrite';
 import useAppwrite from '@/lib/useAppwrite';
 import {useCallback, useEffect, useState} from 'react';
 import {
@@ -19,7 +19,8 @@ import {Models} from 'react-native-appwrite';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 const Home = () => {
-  const {data} = useAppwrite(getAllPosts);
+  const {data: posts} = useAppwrite(getAllPosts);
+  const {data: latestPosts} = useAppwrite(getLatestPosts);
   const [search, setSearch] = useState('');
   const [refresh, setRefresh] = useState(false);
 
@@ -31,7 +32,7 @@ const Home = () => {
   return (
     <SafeAreaView className='bg-primary h-full'>
       <FlatList
-        data={data}
+        data={posts}
         keyExtractor={(item) => item?.$id}
         renderItem={({item}) => <VideoCard videoItem={item} />}
         ListHeaderComponent={() => (
@@ -64,7 +65,7 @@ const Home = () => {
               <Text className='text-lg font-pregular text-gray-100 mb-3'>
                 Latest Videos
               </Text>
-              <Trending posts={[{id: 1}, {id: 3}, {id: 3}]} />
+              <Trending posts={latestPosts} />
             </View>
           </View>
         )}
