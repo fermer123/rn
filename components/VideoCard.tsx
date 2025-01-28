@@ -1,6 +1,6 @@
 import {icons} from '@/constants';
-import {FC} from 'react';
-import {Image, Text, View} from 'react-native';
+import {FC, useState} from 'react';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
 import {Models} from 'react-native-appwrite';
 
 interface IProps {
@@ -8,12 +8,12 @@ interface IProps {
 }
 
 const VideoCard: FC<IProps> = ({videoItem}) => {
-  console.log('video', videoItem);
   const {title, thumbnail, video, creator} = videoItem;
+  const [play, setPlay] = useState(false);
   return (
-    <View className='flex-col items-center  px-4 mb-14'>
-      <View className='flex-row gap-3 items-start  '>
-        <View className='justify-center items-center flex-row flex-1'>
+    <View className='flex-col items-start  px-4 mb-14'>
+      <View className='flex-row justify-between gap-3 w-full'>
+        <View className='justify-center flex-1 items-center flex-row'>
           <View className='w-[46px] h-[46px] rounded-lg border border-secondary justify-center items-center p-0.5'>
             <Image
               className='w-full h-full rounded-lg'
@@ -38,10 +38,29 @@ const VideoCard: FC<IProps> = ({videoItem}) => {
           <Image
             source={icons.menu}
             resizeMode='contain'
-            style={{width: 5, height: 5}}
+            style={{width: 15, height: 15}}
           />
         </View>
       </View>
+      {play ? (
+        <Text className='text-white'>Playing</Text>
+      ) : (
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => setPlay((prev) => !prev)}
+          className='w-full h-[120px] rounded-xl mt-3 relative justify-center items-center'>
+          <Image
+            className='w-full h-full rounded-xl mt-3'
+            resizeMode='cover'
+            source={{uri: thumbnail}}
+          />
+          <Image
+            source={icons.play}
+            className='absolute top-[30%]'
+            style={{height: '50px', width: '50px'}}
+          />
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
