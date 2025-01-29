@@ -5,30 +5,31 @@ import {Image, Text, TouchableOpacity} from 'react-native';
 import {icons} from '@/constants';
 interface IProps {
   video: Models.Document;
-  activeVideo: Models.Document | undefined;
+  activeVideo: string | undefined;
 }
-const zoomIn = {
+const zoomIn: Animatable.CustomAnimation = {
   0: {
-    scale: 0.9,
+    scaleY: 0.9,
   },
   1: {
-    scale: 1.1,
+    scaleY: 1.1,
   },
 };
 const zoomOut = {
   0: {
-    scale: 1.1,
+    scaleY: 1.1,
   },
   1: {
-    scale: 0.9,
+    scaleY: 0.9,
   },
 };
 
 export const TrendingItem: FC<IProps> = ({video, activeVideo}) => {
   const [play, setPlay] = useState(false);
+  console.log('video', video);
   return (
     <Animatable.View
-      animation={activeVideo?.$id === video?.$id ? zoomIn : zoomOut}
+      animation={activeVideo === video?.$id ? zoomIn : zoomOut}
       duration={500}>
       {play ? (
         <Text className='text-white'>Playing</Text>
